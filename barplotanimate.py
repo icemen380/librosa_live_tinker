@@ -37,21 +37,19 @@ def get_chroma(stream):
 
 
 def animate(frameno):
-    # x = mu + sigma * np.random.randn(N)
-    x = get_chroma(stream)
-    n, _ = np.histogram(x, bins, normed=True)
+    n, _ = np.histogram(get_chroma(stream), bins, normed=True)
     for rect, h in zip(patches, n):
         rect.set_height(h)
     return patches
 
-N, mu, sigma = 10000, 100, 15
+
+#Setup a histogram with the chroma values
+#Things get dicey when the chromagram array get two dimensional, should
+#look into how often librosa runs an analysis
 fig, ax = plt.subplots()
+chroma=get_chroma(stream)
 
-#x = mu + sigma * np.random.randn(N)
-x=get_chroma(stream)
-print len(x)
-
-n, bins, patches = plt.hist(x, normed=1, facecolor='green', alpha=0.75)
+n, bins, patches = plt.hist(chroma, normed=1, facecolor='green', alpha=0.75)
 plt.axis([0, 1, 0, 10])
 frames = 10000
 ani = animation.FuncAnimation(fig, animate, blit=True, interval=0,
